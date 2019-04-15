@@ -1,0 +1,69 @@
+#
+# Generic Makefile with static code analysis
+#
+# (c) 2019 Josef Hammer
+#
+# To guarantee that the static analysis is performed on each run, all *.c files 
+# will be compiled regardless of whether they were changed or not. 
+# 
+# I.e., the typical Make optimization to compile only changed files is disabled 
+# (the script is intended for small student assignments where performance is not 
+# of major importance).
+#
+# __Targets__ 
+# 	- format:	Auto-format all source files
+#	- clean: 	Remove binary program and all temp files
+#	- all:		Full build
+#	- test: 	Run program with Valgrind
+#
+# __Limitations__ Can link a single program per folder only.
+#
+# __Requirements__ sudo apt -y install build-essential valgrind clang clang-format clang-tidy cppcheck
+#
+#
+main = a.out
+
+CC = /usr/bin/gcc 
+CFLAGS = -Wall -g -pthread
+
+TIDYFILTER = 1>&2 2>/dev/null  # drop clang-tidy errors; redirect analysis to &2
+
+TIDYCHECKS=bugprone-*,clang-analyzer-core.*,clang-analyzer-cplusplus.*,clang-analyzer-deadcode.*,clang-analyzer-unix.*,misc-*,performance-*,readability-braces-around-statements,readability-delete-null-pointer,readability-inconsistent-declaration-parameter-name,readability-misleading-indentation,readability-misplaced-array-index,readability-redundant-*,-misc-unused-parameters
+
+
+src = $(wildcard *.c)
+hdr = $(wildcard *.h)
+obj = $(src:.c=.o)
+
+.PHONY: all
+all: $(main)
+
+.PHONY: $(src)  # Forces all files to be compiled + analyzed _on each execution_!
+%.o: %.c
+	$(CC) $(CFLAGS) -c -o $@ ./$^
+	@clang-tidy -quiet -checks=$(TIDYCHECKS) $^ $(TIDYFILTER)
+	@cppcheck --quiet --enable=warning,performance,portability,style \
+		--suppress=assertWithSideEffect \
+        --template='./{file}:{line}: {severity}: {message} [{id}]\n\n' $^
+
+.PHONY: format 
+format: $(hdr) $(src)
+	@clang-format -i -fallback-style=WebKit -style=file $^  # uses custom `.clang-format`; WebKit as fallback
+	@echo "Source files formatted."
+
+$(main): $(obj)
+	$(CC) $(CFLAGS) -o $@ $^
+
+.PHONY: clean
+clean:
+	@rm -f $(obj) $(main)
+
+.PHONY: test
+test:
+	@valgrind ./$(main)
+
+# Use `tidyfilter` as the first target to suppress clang-tidy "note" lines
+#
+.PHONY: tidyfilter
+tidyfilter:
+	$(eval TIDYFILTER = 2>/dev/null | grep " warning: \| error: " -A 2 1>&2 || true)
