@@ -120,3 +120,8 @@ In the directory with your source file(s) within the VM
         - will also format if no `.clang-format` is present
         - if `None` nothing will be done without a `.clang-format` file present
 
+
+## License
+
+This project is licensed under the [MIT License](LICENSE.md).
+
