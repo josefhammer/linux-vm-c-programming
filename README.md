@@ -57,7 +57,7 @@ Try this solution:
 
 ## Generic Makefile with static code analysis
 
-To guarantee that the static analysis is performed on each run, all `*.c` files will be compiled regardless of whether they were changed or not. I.e., the typical Make optimization to compile only changed files is disabled (the script is intended for small student assignments where performance is not of major importance).
+To guarantee that the static analysis is performed on each run, all `*.c` files will be compiled regardless of whether they were changed or not. I.e., the typical Make optimization to compile only changed files is disabled (the script is intended for student assignments where build performance is not of major importance).
 
 __Targets__ 
 
@@ -102,15 +102,15 @@ In the directory with your source file(s) within the VM
     
 ### Notes
 
-- uses clang-format with a style based on WebKit style
-- you may adapt .clang-format according to your preferences
-- sections can be excluded using “// clang-format off|on”
+- uses **clang-format** with a style based on WebKit style
+- you may adapt `.clang-format` according to your preferences
+- sections can be excluded using `// clang-format off|on`
 - many editors/IDEs like Atom and Visual Studio Code have integrations/features that allow to auto-format code (i.e. you won’t have to use `make format`)
 
 
 ### Auto-Format with Visual Studio Code
 
-1. Install the C++ Extension by Microsoft
+1. Install the **C++ Extension** by Microsoft
 
 2. Preferences --> Settings --> search for “format”
     - **Editor:** activate “Format On Save”
