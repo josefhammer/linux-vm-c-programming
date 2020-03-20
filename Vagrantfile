@@ -41,7 +41,7 @@ Vagrant.configure("2") do |config|
     inline: "sudo apt update"
     
   config.vm.provision "shell",
-    inline: "sudo apt -y install build-essential gdb valgrind linux-headers-$(uname -r) clang clang-tidy cppcheck clang-format"
+    inline: "sudo apt -y install build-essential gdb valgrind linux-headers-$(uname -r) manpages-dev manpages-posix-dev clang clang-tidy cppcheck clang-format"
     # includes 'clang' just so clang-tidy can find the system headers
 
   config.vm.provision "shell",
