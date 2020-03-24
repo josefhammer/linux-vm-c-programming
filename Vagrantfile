@@ -47,6 +47,9 @@ Vagrant.configure("2") do |config|
   config.vm.provision "shell",
     inline: "sudo updatedb"  # to be able to 'locate' the new kernel sources
 
+  config.vm.provision "shell",
+    inline: "sudo sysctl -w kernel.core_pattern=core.%p.%t"  # save core dumps in the current directory
+
   config.vm.provision "shell", 
     inline: $script
 
