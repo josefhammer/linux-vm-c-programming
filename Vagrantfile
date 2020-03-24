@@ -37,6 +37,10 @@ Vagrant.configure("2") do |config|
   config.vm.box = "bento/ubuntu-18.04"
   config.vm.synced_folder ".", "/home/vagrant/os"
 
+  config.vm.provider 'virtualbox' do |vb|
+    vb.customize [ "guestproperty", "set", :id, "/VirtualBox/GuestAdd/VBoxService/--timesync-set-threshold", 1000 ]  # decrease time resync threshold
+  end
+
   config.vm.provision "shell",
     inline: "sudo apt update"
     
