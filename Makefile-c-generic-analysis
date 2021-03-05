@@ -1,7 +1,7 @@
 #
 # Generic Makefile with static code analysis
 #
-# (c) 2019 Josef Hammer
+# (c) 2019-2021 Josef Hammer
 #
 # To guarantee that the static analysis is performed on each run, all *.c files 
 # will be compiled regardless of whether they were changed or not. 
@@ -28,7 +28,7 @@ CFLAGS = -Wall -g -pthread
 
 TIDYFILTER = 1>&2 2>/dev/null  # drop clang-tidy errors; redirect analysis to &2
 
-TIDYCHECKS=bugprone-*,clang-analyzer-core.*,clang-analyzer-cplusplus.*,clang-analyzer-deadcode.*,clang-analyzer-unix.*,misc-*,performance-*,readability-braces-around-statements,readability-delete-null-pointer,readability-inconsistent-declaration-parameter-name,readability-misleading-indentation,readability-misplaced-array-index,readability-redundant-*,-misc-unused-parameters
+TIDYCHECKS=bugprone-*,clang-analyzer-core.*,clang-analyzer-cplusplus.*,clang-analyzer-deadcode.*,clang-analyzer-unix.*,misc-*,performance-*,readability-braces-around-statements,readability-delete-null-pointer,readability-inconsistent-declaration-parameter-name,readability-misleading-indentation,readability-misplaced-array-index,readability-redundant-*,-misc-unused-parameters,-clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling
 
 
 src = $(wildcard *.c)
