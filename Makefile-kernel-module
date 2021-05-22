@@ -1,0 +1,26 @@
+#
+# Generic Makefile for simple kernel modules
+#
+# (c) 2021 Josef Hammer
+#
+# Copies a single *.c file to a temp folder, compiles it to a kernel module,
+# and copies the resulting kernel object file back to the current folder.
+# This approach keeps the current folder clean of any temp files.
+#
+# __Limitations__ The folder must contain a single *.c file only.
+#
+c-file := $(wildcard *.c)
+os-module := $(basename $(c-file))
+temp-dir := /tmp/os$(shell date +'%y')s-kernel-module-$(os-module)
+
+all: 
+	@echo Making module [$(os-module)]:
+	@mkdir -p $(temp-dir) 		
+	@cp *.c $(temp-dir)
+	@echo obj-m += $(os-module).o > $(temp-dir)/Makefile
+	make -Wall -C /lib/modules/$(shell uname -r)/build M=$(temp-dir) modules
+	@cp $(temp-dir)/$(os-module).ko .
+
+clean:
+	-@rm -rf $(temp-dir)
+	rm -rf *.ko
