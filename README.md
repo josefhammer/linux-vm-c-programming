@@ -4,6 +4,7 @@
 - Defines a **Virtual Machine with Linux** (Ubuntu) to be used e.g. for operating system courses at university. 
 - The directory that contains the Vagrantfile is available as a **shared folder** within the VM at `/home/vagrant/os`.
 - A **generic Makefile** and tools for static code analysis (C language) is provided.
+- A **generic Makefile for kernel modules** is provided as well.
 
 
 ## Getting Started
@@ -78,7 +79,6 @@ __Requirements__
 `sudo apt -y install build-essential valgrind clang clang-format clang-tidy cppcheck`
 
 
-
 ### Usage
 
 In the directory with your source file(s) within the VM:
@@ -86,6 +86,7 @@ In the directory with your source file(s) within the VM:
     make
     make test (in case no command line arguments are required for your program)
     make clean
+
 
 ### Notes
 
@@ -99,6 +100,7 @@ In the directory with your source file(s) within the VM:
 In the directory with your source file(s) within the VM
 
     make format
+    
     
 ### Notes
 
@@ -119,6 +121,29 @@ In the directory with your source file(s) within the VM
     - **C/C++:** `Clang_format_fallback` = `WebKit` 
         - will also format if no `.clang-format` is present
         - if `None` nothing will be done without a `.clang-format` file present
+
+
+## Generic Makefile for kernel modules
+
+This Makefile copies a single `*.c` file to a temp folder, compiles it to a kernel module, and copies the resulting kernel object file back to the current folder. This approach keeps the current folder clean of any temp files.
+
+
+### Usage
+
+Copy the file [Makefile-kernel-module](Makefile-kernel-module) to your source folder and **rename it** to `Makefile` or `makefile`.
+
+In the directory with your source file(s) within the VM:
+
+    make
+    make clean
+
+__Attention__
+
+The provided Makefile must be renamed exactly as mentioned above (no extension!), otherwise the generic Makefile for regular C programs will be used!
+
+__Limitations__ 
+
+The folder must contain a single *.c file only.
 
 
 ## License
