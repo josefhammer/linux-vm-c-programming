@@ -9,7 +9,9 @@
 
 ## Getting Started
 
-- Install **Virtualbox**
+- Install **Virtualbox** 
+    - Install the software only – no virtual machine.
+    - For Apple users: Virtualbox does **not** work (yet) with the M1 chip.
     - https://www.virtualbox.org/
 - Install **Vagrant**
     - https://www.vagrantup.com/
