@@ -38,4 +38,7 @@ EOF
 echo "" >> /home/$USER/.bashrc
 echo "source $FILE" >> /home/$USER/.bashrc
 
-wget -O /home/$USER/.Makefile-c-generic-analysis https://raw.githubusercontent.com/josefhammer/linux-vm-c-programming/main/generic-makefiles/Makefile-c-generic-analysis
+# Copy generic Makefile to user home
+wget --quiet -O /home/$USER/.Makefile-c-generic-analysis https://raw.githubusercontent.com/josefhammer/linux-vm-c-programming/main/generic-makefiles/Makefile-c-generic-analysis
+# Copy .clang-format to user home
+wget --quiet -O /home/$USER/.clang-format https://raw.githubusercontent.com/josefhammer/linux-vm-c-programming/main/generic-makefiles/.clang-format
