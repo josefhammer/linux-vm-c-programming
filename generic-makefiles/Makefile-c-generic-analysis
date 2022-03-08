@@ -1,7 +1,9 @@
 #
 # Generic Makefile with static code analysis
 #
-# (c) 2019-2021 Josef Hammer
+# (c) 2019-2022 Josef Hammer
+#
+# Source: https://github.com/josefhammer/linux-vm-c-programming
 #
 # To guarantee that the static analysis is performed on each run, all *.c files 
 # will be compiled regardless of whether they were changed or not. 

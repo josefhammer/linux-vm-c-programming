@@ -1,7 +1,9 @@
 #
 # Generic Makefile for simple kernel modules
 #
-# (c) 2021 Josef Hammer
+# (c) 2021-2022 Josef Hammer
+#
+# Source: https://github.com/josefhammer/linux-vm-c-programming
 #
 # Copies a single *.c file to a temp folder, compiles it to a kernel module,
 # and copies the resulting kernel object file back to the current folder.
