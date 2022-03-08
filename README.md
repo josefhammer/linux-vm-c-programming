@@ -15,11 +15,9 @@
     - https://www.virtualbox.org/
 - Install **Vagrant**
     - https://www.vagrantup.com/
-- Download/copy these files to your **root working directory**
+- Download/copy this file to your **root working directory**
     - `Vagrantfile`
-    - `Makefile-c-generic-analysis`
-    - `.clang-format`
-- (Re-) **Provision** the Vagrant VM
+- (Re-) **Provision** the Vagrant VM (in your root working directory)
     - `vagrant up --provision`
 
 
