@@ -4,33 +4,9 @@
 # The directory that contains the Vagrantfile is available as a synced folder 
 # within the VM at /home/vagrant/os.
 #
-# (c) 2019-2021 Josef Hammer
-#
-$script = <<-SCRIPT
-
-cat << 'EOF' > /home/vagrant/.bash_os     # quote 'EOF' to avoid param expansion in the here-document
-
-# make(): If the current directory does not contain a Makefile, 
-#         a default Makefile is used as a fallback.
-#
-make() {
-    MAKE=`which make`
-    MAKEFILE="/home/vagrant/os/Makefile-c-generic-analysis"
-
-    if [ -f makefile ] || [ -f Makefile ];
-    then
-        "$MAKE" "$@"
-    else 
-        echo "** Makefile: $MAKEFILE **"
-        "$MAKE" -f "$MAKEFILE" "$@"
-    fi
-}
-
-EOF
-
-echo "" >> /home/vagrant/.bashrc
-echo "source /home/vagrant/.bash_os" >> /home/vagrant/.bashrc
-SCRIPT
+# (c) 2019-2022 Josef Hammer
+# 
+# Source: https://github.com/josefhammer/linux-vm-c-programming
 
 
 Vagrant.configure("2") do |config|
@@ -56,6 +32,7 @@ Vagrant.configure("2") do |config|
     inline: "sudo sysctl -w kernel.core_pattern=core.%p.%t"  # save core dumps in the current directory
 
   config.vm.provision "shell", 
-    inline: $script
+    privileged: false,
+    path: "https://raw.githubusercontent.com/josefhammer/linux-vm-c-programming/main/generic-makefiles/Makefile-macro.sh"
 
 end
