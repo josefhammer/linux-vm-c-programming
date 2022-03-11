@@ -21,9 +21,12 @@ Vagrant.configure("2") do |config|
     inline: "sudo apt update"
     
   config.vm.provision "shell",
-    inline: "sudo apt -y install build-essential gdb valgrind linux-headers-$(uname -r) mlocate manpages-dev manpages-posix-dev clang clang-tidy cppcheck clang-format"
+    inline: "sudo apt -y install build-essential gdb valgrind mlocate manpages-dev manpages-posix-dev clang clang-tidy cppcheck clang-format"
     # includes 'clang' just so clang-tidy can find the system headers
     # mlocate for locate + updatedb
+
+  config.vm.provision "shell",
+    inline: "sudo apt -y install linux-headers-$(uname -r)"
 
   config.vm.provision "shell",
     inline: "sudo updatedb"  # to be able to 'locate' the new kernel sources
