@@ -2,8 +2,9 @@
 
 
 - Defines a **Virtual Machine with Linux** (Ubuntu) to be used e.g. for operating system courses at university. 
-- The directory that contains the Vagrantfile is available as a **shared folder** within the VM at `/home/vagrant/os`.
-- A **generic Makefile** and tools for static code analysis (C language) is provided.
+- The directory that contains the Vagrantfile (= **root working directory**) is available as a **shared folder** within the VM at `/home/vagrant/os`.
+- Alternatively, a **Docker container** is available (e.g., to be used with Apple’s M1 chip).
+- A **generic Makefile** and tools for static code analysis (C language) are provided.
 - A **generic Makefile for kernel modules** is provided as well.
 
 
@@ -11,7 +12,8 @@
 
 - Install **Virtualbox** 
     - Install the software only – no virtual machine.
-    - For Apple users: Virtualbox does **not** work (yet) with the M1 chip.
+        - For Apple users: Virtualbox **does not work** (yet) **with the M1 chip**. 
+          Alternative solutions (not automated with Vagrant) include [Parallels Desktop](https://www.parallels.com/) and [UTM](https://mac.getutm.app/) or the [Docker solution below](#linux-virtual-machine-with-docker).
     - https://www.virtualbox.org/
 - Install **Vagrant**
     - https://www.vagrantup.com/
@@ -19,7 +21,6 @@
     - `Vagrantfile`
 - (Re-) **Provision** the Vagrant VM (in your root working directory)
     - `vagrant up --provision`
-
 
 
 ## Linux Virtual Machine with Vagrant
@@ -55,6 +56,36 @@ Try this solution:
 - add `127.0.0.1 localhost` (in case this line is missing)
 
 
+## Linux “Virtual Machine” with Docker
+
+- This solution is intended for students with an Apple M1 chip who cannot use Virtualbox (yet).
+- A Docker container is not a virtual machine, and **Kernel module development** is **not possible**.
+    - _It would be possible in `privileged mode`, but there are no header files available for the LinuxKit kernel used on MacOS (March 2022)_.
+
+### Installation
+
+- Install **Docker Desktop** 
+    - https://docs.docker.com/desktop/mac/apple-silicon/
+- Run **Docker.app**
+    - Grant privileges if necessary.
+    - Docker Desktop must be running when using the container.
+- Open a shell with your **root working directory**
+    - The folder must not contain a file named `Dockerfile`.
+- Run this command in your **root working directory**
+    ```
+    curl https://raw.githubusercontent.com/josefhammer/linux-vm-c-programming/main/docker/build-osdocker.sh | bash
+    ```
+
+### Usage
+
+- Run the newly created **launch script** in your **root working directory**
+
+        ./run-osdocker.sh
+
+    - This folder will be available within the container at `/home/vagrant/os`.
+    - Can be run multiple times if more than one shell in parallel is needed.
+        - The first one to `exit` will stop the container.
+    - _The script has been designed to make the container feel like a Vagrant virtual machine – this is not how one would typically use containers._
 
 ## Generic Makefile with static code analysis
 
@@ -84,15 +115,15 @@ __Requirements__
 In the directory with your source file(s) within the VM:
 
     make
-    make test (in case no command line arguments are required for your program)
+    make test (in case no command-line arguments are required for your program)
     make clean
 
 
 ### Notes
 
 - one program per folder only
-- no need to copy the Makefile into your source folder
 - if you have your own Makefile in the folder, yours will be used
+- no need to copy the Makefile (renamed to `Makefile`!) into your source folder **if** the [make-macro installation script](generic-makefiles/Makefile-macro.sh) has been run (e.g., in the Vagrant virtual machine)
 
 
 ## Auto-format your source files
@@ -107,7 +138,7 @@ In the directory with your source file(s) within the VM
 - uses **clang-format** with a style based on WebKit style
 - you may adapt `.clang-format` according to your preferences
 - sections can be excluded using `// clang-format off|on`
-- many editors/IDEs like Atom and Visual Studio Code have integrations/features that allow to auto-format code (i.e. you won’t have to use `make format`)
+- many editors/IDEs like Atom and Visual Studio Code have integrations/features that allow to auto-format code (i.e., you won’t have to use `make format`)
 
 
 ### Auto-Format with Visual Studio Code
@@ -130,7 +161,7 @@ This Makefile copies a single `*.c` file to a temp folder, compiles it to a kern
 
 ### Usage
 
-Copy the file [Makefile-kernel-module](Makefile-kernel-module) to your source folder and **rename it** to `Makefile` or `makefile`.
+Copy the file [Makefile-kernel-module](generic-makefiles/Makefile-kernel-module) to your source folder and **rename it** to `Makefile` or `makefile`.
 
 In the directory with your source file(s) within the VM:
 
@@ -139,7 +170,7 @@ In the directory with your source file(s) within the VM:
 
 __Attention__
 
-The provided Makefile must be renamed exactly as mentioned above (no extension!), otherwise the generic Makefile for regular C programs will be used!
+The provided Makefile must be renamed exactly as mentioned above (no extension!); otherwise, the generic Makefile for regular C programs will be used!
 
 __Limitations__ 
 
