@@ -20,7 +20,7 @@ RUN apt -y update
 # > not required on a system that users do not log into.
 # > To restore this content, including manpages, you can run the 'unminimize'
 # > command. You will still need to ensure the 'man-db' package is installed.
-RUN echo 'y' | unminimize
+RUN yes | unminimize
 
 # Install C programming tools
 RUN apt -y install build-essential gdb valgrind mlocate manpages-dev manpages-posix-dev clang clang-tidy cppcheck clang-format
