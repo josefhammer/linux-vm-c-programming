@@ -59,4 +59,4 @@ STOPSIGNAL SIGKILL
 
 # -l ... login shell -> .profile will be executed
 # -i ... interactive shell -> do not start another one
-ENTRYPOINT [ "/bin/bash", "-li" ]
+CMD [ "/bin/bash", "-li" ]
