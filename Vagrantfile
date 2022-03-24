@@ -31,8 +31,14 @@ Vagrant.configure("2") do |config|
   config.vm.provision "shell",
     inline: "sudo updatedb"  # to be able to 'locate' the new kernel sources
 
-  config.vm.provision "shell",
-    inline: "sudo sysctl -w kernel.core_pattern=core.%p.%t"  # save core dumps in the current directory
+  config.vm.provision "shell", inline: <<-SHELL
+    # disable default Ubuntu core dumps
+    echo 'enabled=0' | sudo tee /etc/default/apport
+    # save core dumps in the current directory (works until reboot)
+    sudo sysctl -w 'kernel.core_pattern=core.%p.%t'
+    # permanently set up core pattern
+    echo 'kernel.core_pattern=core.%p.%t' | sudo tee /etc/sysctl.d/60-core-pattern.conf
+  SHELL
 
   config.vm.provision "shell", 
     privileged: false,
