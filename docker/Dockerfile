@@ -5,12 +5,12 @@
 # The current working directory is available within the container at 
 # /home/vagrant/os.
 #
-# (c) 2022 Josef Hammer
+# (c) 2022-23 Josef Hammer
 # 
 # Source: https://github.com/josefhammer/linux-vm-c-programming
 
 
-FROM ubuntu:20.04
+FROM ubuntu:22.04
 ENV container docker
 # Avoid questions on apt install
 ARG DEBIAN_FRONTEND=noninteractive
