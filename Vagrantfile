@@ -4,13 +4,13 @@
 # The directory that contains the Vagrantfile is available as a synced folder 
 # within the VM at /home/vagrant/os.
 #
-# (c) 2019-2022 Josef Hammer
+# (c) 2019-2023 Josef Hammer
 # 
 # Source: https://github.com/josefhammer/linux-vm-c-programming
 
 
 Vagrant.configure("2") do |config|
-  config.vm.box = "bento/ubuntu-20.04"
+  config.vm.box = "bento/ubuntu-22.04"
   config.vm.synced_folder ".", "/home/vagrant/os"
 
   config.vm.provider 'virtualbox' do |vb|
